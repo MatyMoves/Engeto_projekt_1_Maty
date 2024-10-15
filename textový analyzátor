@@ -1,0 +1,101 @@
+'''
+projekt_1.py: první projekt do Engeto Online Python Akademie
+
+author: Matyáš Veselý
+email: matyas.vesely@gmail.com
+discord: matyasvesely_06521
+'''
+texts = ['''
+Situated about 10 miles west of Kemmerer,
+Fossil Butte is a ruggedly impressive
+topographic feature that rises sharply
+some 1000 feet above Twin Creek Valley
+to an elevation of more than 7500 feet
+above sea level. The butte is located just
+north of US 30N and the Union Pacific Railroad,
+which traverse the valley. ''',
+'''At the base of Fossil Butte are the bright
+red, purple, yellow and gray beds of the Wasatch
+Formation. Eroded portions of these horizontal
+beds slope gradually upward from the valley floor
+and steepen abruptly. Overlying them and extending
+to the top of the butte are the much steeper
+buff-to-white beds of the Green River Formation,
+which are about 300 feet thick.''',
+'''The monument contains 8198 acres and protects
+a portion of the largest deposit of freshwater fish
+fossils in the world. The richest fossil fish deposits
+are found in multiple limestone layers, which lie some
+100 feet below the top of the butte. The fossils
+represent several varieties of perch, as well as
+other freshwater genera and herring similar to those
+in modern oceans. Other fish such as paddlefish,
+garpike and stingray are also present.'''
+]
+line = "-"*60
+registered = {
+    "bob": "123",
+    "ann": "pass123",
+    "mike": "password123",
+    "liz": "pass123"
+}
+user = input("username:")
+password = input("password:")
+print(line)
+if user not in registered.keys() or registered[user] != password:
+    print("unregistered user, terminating the program..")
+    exit()
+else:
+    print("Welcome to the app, ", user, "\n",
+          "We have 3 texts to be analyzed.", sep="")
+print(line)
+choice = int(input("Enter a number btw. 1 and 3 to select:"))
+if choice > len(texts) or not isinstance(int(choice), int):
+    print("invalid index, terminating the program..")
+    exit()
+else:
+    print(line)
+choosen_text = texts[choice-1].replace("\n"," ").replace(".","").replace(",","")
+list_of_words = [word for word in choosen_text.split(" ")]
+titlecase = []
+uppercase = []
+lowercase = []
+numeric = []
+for word in list_of_words:
+    if word.isnumeric():
+        numeric.append(word)
+    elif word.isupper() and word.isalpha():
+        uppercase.append(word)
+    elif word.istitle():
+        titlecase.append(word)
+    elif word.islower():
+        lowercase.append(word)
+total_words = len(titlecase + lowercase + uppercase + numeric)
+sum_of_numbers = 0
+for number in numeric:
+    sum_of_numbers += int(number)
+print(f"There are {total_words} words in the selected text.")
+print(f"There are {len(titlecase)} titlecase words.")
+print(f"There are {len(uppercase)} uppercase words.")
+print(f"There are {len(lowercase)} lowercase words.")
+print(f"There are {len(numeric)} numeric strings.")
+print(f"The sum of all the numbers is {sum_of_numbers}")
+print(line)
+len_occurences = {}
+for number in range (1,14):
+    len_occurences[str(number)] = 0  
+for word in list_of_words:
+    for number in range(1,14):
+        if len(word) == number:
+            len_occurences[str(number)] += 1
+print("LEN|    OCCURENCES    |NR.")
+print(line)
+max_len = 0
+for index in range(13,1,-1): #zjitíme nejdelší slovo, což ovlivní rozsah vypsaného sloupcového grafu
+    if len_occurences[str(index)] != 0:
+        max_len = index
+        break   
+for number in range(1,max_len+1): #za délku příštího superřádku se omlouvám, ale rozhodí mi to jinak i samotný výpis=/
+    print(f"{str(number).rjust(3)}|{("*" * len_occurences[str(number)]).ljust(18)}|{len_occurences[str(number)]}")
+print(line)
+print(f"Dear {user}, we were deligted to work with you. See you next time!")
